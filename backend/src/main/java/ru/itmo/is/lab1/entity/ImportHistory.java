@@ -35,17 +35,17 @@ public class ImportHistory {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @Column
+    @Column(name = "added_count")
     private Integer addedCount;
 
-    @Column(length = 2000)
+    @Column(name = "error_message", length = 2000)
     private String errorMessage;
 
-    @Column
+    @Column(name = "file_name")
     private String fileName;
 
     // Поле для хранения пути к файлу в MinIO
-    @Column
+    @Column(name = "minio_object_name")
     private String minioObjectName;
 
     @PrePersist

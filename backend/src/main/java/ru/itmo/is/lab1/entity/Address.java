@@ -26,6 +26,6 @@ public class Address {
     private String street;
 
     @NotNull(message = "Почтовый индекс не может быть null")
-    @Column(nullable = false)
+    @Column(name = "zipcode", nullable = false)
     private String zipCode;
 }

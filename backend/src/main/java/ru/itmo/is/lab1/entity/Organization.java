@@ -26,11 +26,11 @@ public class Organization {
     private Address officialAddress;
 
     @Positive(message = "Годовой оборот должен быть больше 0")
-    @Column(nullable = false)
+    @Column(name = "annualturnover", nullable = false)
     private int annualTurnover;
 
     @Positive(message = "Количество сотрудников должно быть больше 0")
-    @Column(nullable = false)
+    @Column(name = "employeescount", nullable = false)
     private long employeesCount;
 
     @NotNull(message = "Рейтинг не может быть null")

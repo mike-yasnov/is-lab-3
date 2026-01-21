@@ -3,6 +3,9 @@
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Concurrent Import Test - Uniqueness Check">
       <stringProp name="TestPlan.comments">Тест проверяет, что при одновременном импорте  данных только один пользователь успешно импортирует, остальные получают ошибку уникальности</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
         <collectionProp name="Arguments.arguments">
           <elementProp name="BASE_URL" elementType="Argument">
@@ -11,7 +14,7 @@
           </elementProp>
           <elementProp name="PORT" elementType="Argument">
             <stringProp name="Argument.name">PORT</stringProp>
-            <stringProp name="Argument.value">8081</stringProp>
+            <stringProp name="Argument.value">8082</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
@@ -22,6 +25,8 @@
         <stringProp name="HTTPSampler.domain">${BASE_URL}</stringProp>
         <stringProp name="HTTPSampler.port">${PORT}</stringProp>
         <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
+        <stringProp name="HTTPSampler.response_timeout">30000</stringProp>
       </ConfigTestElement>
       <hashTree/>
 
@@ -41,8 +46,12 @@
         <intProp name="ThreadGroup.num_threads">3</intProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
       </ThreadGroup>
@@ -76,7 +85,7 @@
         <hashTree/>
 
         <!-- Импорт файла (каждый поток - свой файл, но с одинаковыми уникальными полями) -->
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Import File - User ${__threadNum}">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Import File - User ${__groovy(ctx.getThreadNum() + 1)}">
           <stringProp name="HTTPSampler.path">/api/import/workers</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
@@ -85,8 +94,8 @@
           </elementProp>
           <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
             <collectionProp name="HTTPFileArgs.files">
-              <elementProp name="test-data/import_user${__threadNum}.json" elementType="HTTPFileArg">
-                <stringProp name="File.path">test-data/import_user${__threadNum}.json</stringProp>
+              <elementProp name="test-data/import_user${__groovy(ctx.getThreadNum() + 1)}.json" elementType="HTTPFileArg">
+                <stringProp name="File.path">test-data/import_user${__groovy(ctx.getThreadNum() + 1)}.json</stringProp>
                 <stringProp name="File.paramname">file</stringProp>
                 <stringProp name="File.mimetype">application/json</stringProp>
               </elementProp>

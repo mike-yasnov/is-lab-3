@@ -25,12 +25,12 @@ public class Person {
 
     @NotNull(message = "Цвет глаз не может быть null")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "eyecolor", nullable = false)
     private Color eyeColor;
 
     @NotNull(message = "Цвет волос не может быть null")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "haircolor", nullable = false)
     private Color hairColor;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

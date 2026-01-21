@@ -96,9 +96,6 @@ public class ImportService {
         String pendingObjectName = null;
 
         try {
-            // === ФАЗА 1: PREPARE ===
-            log.info("=== 2PC PREPARE Phase ===");
-
             // 1.1 Загружаем файл в MinIO (pending)
             log.info("Загрузка файла в MinIO (pending)...");
             pendingObjectName = minioService.prepareUpload(file, userId);
@@ -147,7 +144,6 @@ public class ImportService {
             importHistory.setMinioObjectName(pendingObjectName.replace("pending/", ""));
             importHistoryRepository.save(importHistory);
 
-            // === ФАЗА 2: COMMIT ===
             // Регистрируем callback для коммита MinIO после успешного коммита БД
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                 @Override
@@ -157,9 +153,9 @@ public class ImportService {
                         String finalObjectName = minioService.commitUpload(finalPendingObjectName);
                         log.info("MinIO коммит успешен: {}", finalObjectName);
                     } catch (Exception e) {
-                        // Логируем ошибку, но не откатываем БД (уже закоммичена)
+                        // Логируем ошибку, но не откатываем БД 
                         // Файл останется в pending и может быть очищен позже
-                        log.error("Ошибка коммита MinIO (БД уже закоммичена): {}", e.getMessage());
+                        log.error("Ошибка коммита MinIO: {}", e.getMessage());
                     }
                 }
 
@@ -194,7 +190,6 @@ public class ImportService {
             );
 
         } catch (Exception e) {
-            log.error("=== 2PC ROLLBACK Phase (ошибка) ===");
             log.error("Ошибка импорта: ", e);
             
             // Откатываем MinIO сразу (не ждём afterCompletion, так как может быть не зарегистрирован)

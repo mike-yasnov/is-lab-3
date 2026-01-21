@@ -37,7 +37,7 @@ public class Worker {
     private Coordinates coordinates;
 
     @NotNull(message = "Дата создания не может быть null")
-    @Column(nullable = false, updatable = false)
+    @Column(name = "creationdate", nullable = false, updatable = false)
     private LocalDate creationDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -54,7 +54,7 @@ public class Worker {
 
     @NotNull(message = "Дата начала работы не может быть null")
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
+    @Column(name = "startdate", nullable = false)
     private Date startDate;
 
     @Enumerated(EnumType.STRING)
