@@ -1,0 +1,93 @@
+spring:
+  application:
+    name: worker-management-system
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/studs
+    username: s413122
+    password: m8UzlJueSRkiTf7x
+    driver-class-name: org.postgresql.Driver
+    # HikariCP Connection Pool Configuration
+    hikari:
+      # Минимальное количество соединений в пуле (idle connections)
+      minimum-idle: 5
+      # Максимальный размер пула соединений
+      maximum-pool-size: 20
+      # Время ожидания соединения из пула (30 секунд)
+      connection-timeout: 30000
+      # Время жизни idle соединения (10 минут)
+      idle-timeout: 600000
+      # Максимальное время жизни соединения (30 минут)
+      max-lifetime: 1800000
+      # Имя пула для логирования и JMX
+      pool-name: WorkerManagementHikariPool
+      # SQL запрос для проверки валидности соединения
+      connection-test-query: SELECT 1
+      # Автоматический коммит (отключаем для JPA)
+      auto-commit: false
+      # Регистрация MBeans для мониторинга через JMX
+      register-mbeans: true
+  
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        # L2 Cache Configuration с Ehcache
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        # Ehcache конфигурация через JCache
+        javax:
+          cache:
+            provider: org.ehcache.jsr107.EhcacheCachingProvider
+            uri: classpath:ehcache.xml
+        # Статистика Hibernate (для логирования cache hits/misses)
+        generate_statistics: true
+    open-in-view: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8081
+
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationMustBe256BitsLongEnoughForHS256Algorithm
+  expiration: 86400000
+
+# MinIO Configuration
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: import-files
+
+# Cache Statistics Logging (включение/отключение AOP логирования)
+cache:
+  statistics:
+    enabled: true
+    log-interval-seconds: 60
+
+logging:
+  level:
+    ru.itmo.is.lab1: DEBUG
+    org.springframework: INFO
+    org.hibernate: INFO
+    # Включить для детального логирования SQL
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    # Логирование кэша
+    org.hibernate.cache: DEBUG
+    # HikariCP логирование
+    com.zaxxer.hikari: INFO

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Импорт1 Работник1",
+    "coordinates": {"x": 10, "y": 10},
+    "salary": 45000,
+    "startDate": "2024-03-01T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    }
+  },
+  {
+    "name": "Импорт1 Работник2",
+    "coordinates": {"x": 20, "y": 20},
+    "salary": 55000,
+    "startDate": "2024-03-02T00:00:00.000Z",
+    "position": "ENGINEER",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 180
+    }
+  }
+]
+

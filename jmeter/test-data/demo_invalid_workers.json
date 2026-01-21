@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Первый нормальный",
+    "coordinates": {"x": 400, "y": 300},
+    "salary": 60000,
+    "startDate": "2024-11-01T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    }
+  },
+  {
+    "name": "Второй нормальный",
+    "coordinates": {"x": 410, "y": 310},
+    "salary": 70000,
+    "startDate": "2024-11-02T00:00:00.000Z",
+    "position": "ENGINEER",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 180
+    }
+  },
+  {
+    "name": "",
+    "coordinates": {"x": 420, "y": 320},
+    "salary": 50000,
+    "startDate": "2024-11-03T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    }
+  }
+]
+

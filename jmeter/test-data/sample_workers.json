@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Иван Петров",
+    "coordinates": {"x": 100, "y": 200},
+    "salary": 50000,
+    "rating": 5,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "status": "PROBATION",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175.5,
+      "birthday": "1990-05-20",
+      "location": {"x": 10, "y": 20, "name": "Москва"}
+    }
+  },
+  {
+    "name": "Мария Сидорова",
+    "coordinates": {"x": 150, "y": 250},
+    "salary": 60000,
+    "rating": 7,
+    "startDate": "2024-02-01T00:00:00.000Z",
+    "position": "ENGINEER",
+    "status": "RECOMMENDED_FOR_PROMOTION",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 165.0,
+      "birthday": "1988-11-10",
+      "location": {"x": 15, "y": 25, "name": "Санкт-Петербург"}
+    }
+  },
+  {
+    "name": "Алексей Козлов",
+    "coordinates": {"x": 200, "y": 300},
+    "salary": 80000,
+    "rating": 9,
+    "startDate": "2023-06-01T00:00:00.000Z",
+    "position": "LEAD_DEVELOPER",
+    "status": "RECOMMENDED_FOR_PROMOTION",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 180.0,
+      "birthday": "1985-03-25"
+    }
+  },
+  {
+    "name": "Елена Новикова",
+    "coordinates": {"x": 250, "y": 350},
+    "salary": 45000,
+    "rating": 4,
+    "startDate": "2024-03-10T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "status": "PROBATION",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 160.0
+    }
+  },
+  {
+    "name": "Дмитрий Волков",
+    "coordinates": {"x": 300, "y": 100},
+    "salary": 120000,
+    "rating": 10,
+    "startDate": "2020-01-01T00:00:00.000Z",
+    "position": "DIRECTOR",
+    "status": "RECOMMENDED_FOR_PROMOTION",
+    "person": {
+      "eyeColor": "BLACK",
+      "hairColor": "BLACK",
+      "height": 185.5,
+      "birthday": "1980-07-15",
+      "location": {"x": 0, "y": 0, "name": "Центральный офис"}
+    }
+  }
+]
+

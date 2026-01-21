@@ -1,0 +1,180 @@
+[
+  {
+    "name": "",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: Пустое имя"
+  },
+  {
+    "name": "Без координат",
+    "coordinates": null,
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: coordinates = null"
+  },
+  {
+    "name": "Координата X null",
+    "coordinates": {"x": null, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: X = null"
+  },
+  {
+    "name": "Координата X > 500",
+    "coordinates": {"x": 999, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: X > 500 (максимум)"
+  },
+  {
+    "name": "Координата Y > 381",
+    "coordinates": {"x": 100, "y": 999},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: Y > 381 (максимум)"
+  },
+  {
+    "name": "Зарплата отрицательная",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": -5000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: salary < 0"
+  },
+  {
+    "name": "Зарплата ноль",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 0,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: salary = 0"
+  },
+  {
+    "name": "Нет даты начала",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": null,
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: startDate = null"
+  },
+  {
+    "name": "Нет персоны",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": null,
+    "_comment": "ОШИБКА: person = null"
+  },
+  {
+    "name": "Нет цвета глаз",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": null,
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: eyeColor = null"
+  },
+  {
+    "name": "Нет цвета волос",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": null,
+      "height": 175
+    },
+    "_comment": "ОШИБКА: hairColor = null"
+  },
+  {
+    "name": "Рост отрицательный",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": -10
+    },
+    "_comment": "ОШИБКА: height < 0"
+  },
+  {
+    "name": "Рост ноль",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 0
+    },
+    "_comment": "ОШИБКА: height = 0"
+  },
+  {
+    "name": "Несуществующий цвет глаз",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "person": {
+      "eyeColor": "PURPLE",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: eyeColor = PURPLE (не существует)"
+  },
+  {
+    "name": "Несуществующая должность",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-01-15T00:00:00.000Z",
+    "position": "MANAGER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    },
+    "_comment": "ОШИБКА: position = MANAGER (не существует)"
+  }
+]
+

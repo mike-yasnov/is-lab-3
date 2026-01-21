@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Уникальный Тест",
+    "coordinates": {"x": 200, "y": 200},
+    "salary": 60000,
+    "startDate": "2024-12-15T00:00:00.000Z",
+    "position": "ENGINEER",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 180
+    }
+  }
+]
+

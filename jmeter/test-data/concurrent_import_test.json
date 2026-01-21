@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Конкурентный Работник",
+    "coordinates": {"x": 100, "y": 100},
+    "salary": 50000,
+    "startDate": "2024-12-01T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    }
+  }
+]
+

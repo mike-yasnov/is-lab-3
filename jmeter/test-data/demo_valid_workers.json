@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Демо Работник 1",
+    "coordinates": {"x": 111, "y": 111},
+    "salary": 55000,
+    "startDate": "2024-10-01T00:00:00.000Z",
+    "position": "DEVELOPER",
+    "person": {
+      "eyeColor": "BROWN",
+      "hairColor": "BLACK",
+      "height": 175
+    }
+  },
+  {
+    "name": "Демо Работник 2",
+    "coordinates": {"x": 222, "y": 222},
+    "salary": 65000,
+    "startDate": "2024-10-02T00:00:00.000Z",
+    "position": "ENGINEER",
+    "person": {
+      "eyeColor": "GREEN",
+      "hairColor": "BROWN",
+      "height": 180
+    }
+  },
+  {
+    "name": "Демо Работник 3",
+    "coordinates": {"x": 333, "y": 333},
+    "salary": 75000,
+    "startDate": "2024-10-03T00:00:00.000Z",
+    "position": "LEAD_DEVELOPER",
+    "person": {
+      "eyeColor": "BLACK",
+      "hairColor": "BLACK",
+      "height": 185
+    }
+  }
+]
+

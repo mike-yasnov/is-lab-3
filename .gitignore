@@ -1,0 +1,32 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Build
+backend/target/
+frontend/node_modules/
+frontend/build/
+
+# Logs
+*.log
+jmeter.log
+jmeter/*.log
+
+# JMeter results (large files)
+jmeter/results.jtl
+jmeter/*.jtl
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# MinIO binary (large file)
+minio
+
+# Temp files
+~$*
+*.tmp
+

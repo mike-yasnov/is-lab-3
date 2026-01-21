@@ -1,0 +1,765 @@
+@startuml Worker Management System - Class Diagram
+!define ENTITY_COLOR #E8F5E9
+!define DTO_COLOR #E3F2FD
+!define SERVICE_COLOR #FFF3E0
+!define REPOSITORY_COLOR #F3E5F5
+!define CONTROLLER_COLOR #FCE4EC
+!define ENUM_COLOR #EEEEEE
+!define CONFIG_COLOR #FFF9C4
+!define AOP_COLOR #E0F7FA
+
+skinparam class {
+    BackgroundColor<<Entity>> ENTITY_COLOR
+    BackgroundColor<<DTO>> DTO_COLOR
+    BackgroundColor<<Service>> SERVICE_COLOR
+    BackgroundColor<<Repository>> REPOSITORY_COLOR
+    BackgroundColor<<Controller>> CONTROLLER_COLOR
+    BackgroundColor<<Enum>> ENUM_COLOR
+    BackgroundColor<<Config>> CONFIG_COLOR
+    BackgroundColor<<Aspect>> AOP_COLOR
+    BorderColor Black
+    ArrowColor Black
+}
+
+skinparam packageStyle rectangle
+
+package "Entity Layer (ORM)" <<ENTITY_COLOR>> {
+    
+    class Worker <<Entity>> {
+        - id: Long
+        - name: String
+        - coordinates: Coordinates
+        - creationDate: LocalDate
+        - organization: Organization
+        - salary: long
+        - rating: Integer
+        - startDate: Date
+        - position: Position
+        - status: Status
+        - person: Person
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+        --
+        # onCreate(): void
+    }
+
+    class Organization <<Entity>> {
+        - id: Long
+        - officialAddress: Address
+        - annualTurnover: int
+        - employeesCount: long
+        - rating: Long
+        - type: OrganizationType
+        - postalAddress: Address
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class Person <<Entity>> {
+        - id: Long
+        - eyeColor: Color
+        - hairColor: Color
+        - location: Location
+        - birthday: LocalDate
+        - height: float
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class Coordinates <<Entity>> {
+        - id: Long
+        - x: Integer
+        - y: long
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class Location <<Entity>> {
+        - id: Long
+        - x: Integer
+        - y: Long
+        - name: String
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class Address <<Entity>> {
+        - id: Long
+        - street: String
+        - zipCode: String
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class User <<Entity>> {
+        - id: Long
+        - username: String
+        - password: String
+        - role: Role
+        - approved: boolean
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+
+    class ImportHistory <<Entity>> {
+        - id: Long
+        - user: User
+        - status: ImportStatus
+        - addedCount: Integer
+        - errorMessage: String
+        - timestamp: LocalDateTime
+        - fileName: String
+        - minioObjectName: String
+        --
+        + @Cacheable
+        + @Cache(READ_WRITE)
+    }
+}
+
+package "Enums" <<ENUM_COLOR>> {
+    
+    enum Position <<Enum>> {
+        DIRECTOR
+        ENGINEER
+        DEVELOPER
+        LEAD_DEVELOPER
+        COOK
+    }
+
+    enum Status <<Enum>> {
+        FIRED
+        RECOMMENDED_FOR_PROMOTION
+        PROBATION
+    }
+
+    enum Color <<Enum>> {
+        GREEN
+        BLACK
+        BROWN
+    }
+
+    enum OrganizationType <<Enum>> {
+        COMMERCIAL
+        PUBLIC
+        GOVERNMENT
+        TRUST
+        PRIVATE_LIMITED_COMPANY
+    }
+
+    enum Role <<Enum>> {
+        USER
+        ADMIN
+    }
+
+    enum ImportStatus <<Enum>> {
+        IN_PROGRESS
+        SUCCESS
+        FAILED
+    }
+}
+
+package "DTO Layer (Data Transfer)" <<DTO_COLOR>> {
+    
+    class WorkerDTO <<DTO>> {
+        - id: Long
+        - name: String
+        - coordinates: CoordinatesDTO
+        - creationDate: LocalDate
+        - organization: OrganizationDTO
+        - salary: long
+        - rating: Integer
+        - startDate: Date
+        - position: Position
+        - status: Status
+        - person: PersonDTO
+    }
+
+    class OrganizationDTO <<DTO>> {
+        - id: Long
+        - officialAddress: AddressDTO
+        - annualTurnover: int
+        - employeesCount: long
+        - rating: Long
+        - type: OrganizationType
+        - postalAddress: AddressDTO
+    }
+
+    class PersonDTO <<DTO>> {
+        - id: Long
+        - eyeColor: Color
+        - hairColor: Color
+        - location: LocationDTO
+        - birthday: LocalDate
+        - height: float
+    }
+
+    class CoordinatesDTO <<DTO>> {
+        - id: Long
+        - x: Integer
+        - y: long
+    }
+
+    class LocationDTO <<DTO>> {
+        - id: Long
+        - x: Integer
+        - y: Long
+        - name: String
+    }
+
+    class AddressDTO <<DTO>> {
+        - id: Long
+        - street: String
+        - zipCode: String
+    }
+
+    class PageResponse<T> <<DTO>> {
+        - content: List<T>
+        - pageNumber: int
+        - pageSize: int
+        - totalElements: long
+        - totalPages: int
+        - last: boolean
+        - first: boolean
+    }
+
+    class ErrorResponse <<DTO>> {
+        - timestamp: String
+        - status: int
+        - error: String
+        - message: String
+        - path: String
+    }
+
+    class UserDTO <<DTO>> {
+        - id: Long
+        - username: String
+        - role: String
+        - approved: boolean
+    }
+
+    class AuthRequest <<DTO>> {
+        - username: String
+        - password: String
+    }
+
+    class AuthResponse <<DTO>> {
+        - token: String
+        - username: String
+        - role: String
+    }
+
+    class RegisterRequest <<DTO>> {
+        - username: String
+        - password: String
+        - role: String
+    }
+
+    class ImportHistoryDTO <<DTO>> {
+        - id: Long
+        - status: ImportStatus
+        - username: String
+        - userId: Long
+        - addedCount: Integer
+        - timestamp: LocalDateTime
+        - errorMessage: String
+        - fileName: String
+        - minioObjectName: String
+        - fileAvailable: boolean
+    }
+
+    class ImportResultDTO <<DTO>> {
+        - id: Long
+        - status: ImportStatus
+        - addedCount: Integer
+        - errorMessage: String
+        - workers: List<WorkerDTO>
+    }
+
+    class CacheStatisticsDTO <<DTO>> {
+        - secondLevelHits: long
+        - secondLevelMisses: long
+        - secondLevelPuts: long
+        - secondLevelHitRatio: double
+        - queryHits: long
+        - queryMisses: long
+        - queryPuts: long
+        - loggingEnabled: boolean
+    }
+}
+
+package "Repository Layer (Data Access)" <<REPOSITORY_COLOR>> {
+    
+    interface WorkerRepository <<Repository>> {
+        + findByNameStartingWith(prefix: String): List<Worker>
+        + findByRating(rating: Integer): List<Worker>
+        + countByOrganizationId(organizationId: Long): long
+        + findAll(pageable: Pageable): Page<Worker>
+    }
+
+    interface OrganizationRepository <<Repository>> {
+        + findAll(): List<Organization>
+        + findById(id: Long): Optional<Organization>
+        + save(organization: Organization): Organization
+        + deleteById(id: Long): void
+    }
+
+    interface PersonRepository <<Repository>> {
+    }
+
+    interface CoordinatesRepository <<Repository>> {
+    }
+
+    interface LocationRepository <<Repository>> {
+    }
+
+    interface AddressRepository <<Repository>> {
+    }
+
+    interface UserRepository <<Repository>> {
+        + findByUsername(username: String): Optional<User>
+        + existsByUsername(username: String): boolean
+        + findByRoleAndApproved(role: Role, approved: boolean): List<User>
+        + countByRole(role: Role): long
+    }
+
+    interface ImportHistoryRepository <<Repository>> {
+        + findByUserId(userId: Long, pageable: Pageable): Page<ImportHistory>
+    }
+}
+
+package "Service Layer (Business Logic)" <<SERVICE_COLOR>> {
+    
+    class WorkerService <<Service>> {
+        - workerRepository: WorkerRepository
+        - organizationRepository: OrganizationRepository
+        - mapperService: MapperService
+        - messagingTemplate: SimpMessagingTemplate
+        --
+        + getAll(pageable: Pageable): PageResponse<WorkerDTO>
+        + getById(id: Long): WorkerDTO
+        + create(dto: WorkerDTO): WorkerDTO
+        + update(id: Long, dto: WorkerDTO): WorkerDTO
+        + delete(id: Long): void
+        + deleteByRating(rating: Integer): void
+        + sumRating(): Long
+        + findByNameStartingWith(prefix: String): List<WorkerDTO>
+        + hireToOrganization(workerId: Long, orgId: Long): WorkerDTO
+        + indexSalary(workerId: Long, coefficient: Double): WorkerDTO
+        - notifyClients(): void
+    }
+
+    class OrganizationService <<Service>> {
+        - organizationRepository: OrganizationRepository
+        - workerRepository: WorkerRepository
+        - mapperService: MapperService
+        - messagingTemplate: SimpMessagingTemplate
+        --
+        + getAll(): List<OrganizationDTO>
+        + getById(id: Long): OrganizationDTO
+        + create(dto: OrganizationDTO): OrganizationDTO
+        + update(id: Long, dto: OrganizationDTO): OrganizationDTO
+        + delete(id: Long): void
+        - notifyClients(): void
+    }
+
+    class MapperService <<Service>> {
+        + toDTO(worker: Worker): WorkerDTO
+        + toEntity(dto: WorkerDTO): Worker
+        + toDTO(coordinates: Coordinates): CoordinatesDTO
+        + toEntity(dto: CoordinatesDTO): Coordinates
+        + toDTO(organization: Organization): OrganizationDTO
+        + toEntity(dto: OrganizationDTO): Organization
+        + toDTO(person: Person): PersonDTO
+        + toEntity(dto: PersonDTO): Person
+        + toDTO(address: Address): AddressDTO
+        + toEntity(dto: AddressDTO): Address
+        + toDTO(location: Location): LocationDTO
+        + toEntity(dto: LocationDTO): Location
+    }
+
+    class AuthService <<Service>> {
+        - userRepository: UserRepository
+        - passwordEncoder: PasswordEncoder
+        - authenticationManager: AuthenticationManager
+        - jwtService: JwtService
+        --
+        + register(request: RegisterRequest): UserDTO
+        + login(request: AuthRequest): AuthResponse
+        + approveAdmin(userId: Long): UserDTO
+        + getPendingAdmins(): List<UserDTO>
+    }
+
+    class ImportService <<Service>> {
+        - importHistoryRepository: ImportHistoryRepository
+        - workerRepository: WorkerRepository
+        - validationService: WorkerValidationService
+        - mapperService: MapperService
+        - minioService: MinioService
+        --
+        + importWorkers(file: MultipartFile, userId: Long): ImportResultDTO
+        + getImportHistory(userId: Long, isAdmin: boolean, pageable: Pageable): PageResponse<ImportHistoryDTO>
+        + getImportFile(historyId: Long, userId: Long, isAdmin: boolean): InputStream
+        + getImportFileName(historyId: Long): String
+        --
+        <b>Two-Phase Commit:</b>
+        1. PREPARE: upload to pending/
+        2. COMMIT: move from pending/
+        3. ROLLBACK: delete pending
+    }
+
+    class WorkerValidationService <<Service>> {
+        - workerRepository: WorkerRepository
+        --
+        + validateWorker(dto: WorkerDTO, excludeId: Long): void
+        + validateWorkerForImport(dto: WorkerDTO, rowNumber: int): void
+        + validateUniqueNameAndStartDate(dto: WorkerDTO, excludeId: Long): void
+        + validateUniqueNamePositionOrganization(dto: WorkerDTO, excludeId: Long): void
+    }
+
+    class MinioService <<Service>> {
+        - minioClient: MinioClient
+        - bucketName: String
+        --
+        + generateObjectName(fileName: String, userId: Long): String
+        + prepareUpload(file: MultipartFile, userId: Long): String
+        + commitUpload(pendingObjectName: String): String
+        + rollbackUpload(pendingObjectName: String): void
+        + isAvailable(): boolean
+        + getFile(objectName: String): InputStream
+        + deleteFile(objectName: String): void
+    }
+}
+
+package "AOP Layer (Aspects)" <<AOP_COLOR>> {
+    
+    class CacheStatisticsAspect <<Aspect>> {
+        - entityManagerFactory: EntityManagerFactory
+        - statisticsEnabled: boolean
+        --
+        + @Around repositoryMethods()
+        + logCacheStatisticsForRepository(): Object
+        + getCacheStatistics(): CacheStatisticsDTO
+        + logFullStatistics(): void
+        + clearStatistics(): void
+        + isStatisticsEnabled(): boolean
+        + setStatisticsEnabled(enabled: boolean): void
+        --
+        <i>Logs cache hits/misses</i>
+        <i>for each repository call</i>
+    }
+}
+
+package "Controller Layer (REST API)" <<CONTROLLER_COLOR>> {
+    
+    class WorkerController <<Controller>> {
+        - workerService: WorkerService
+        --
+        + getAll(page, size, sortBy, sortDirection): ResponseEntity<PageResponse<WorkerDTO>>
+        + getById(id: Long): ResponseEntity<WorkerDTO>
+        + create(dto: WorkerDTO): ResponseEntity<WorkerDTO>
+        + update(id: Long, dto: WorkerDTO): ResponseEntity<WorkerDTO>
+        + delete(id: Long): ResponseEntity<Void>
+        + deleteByRating(rating: Integer): ResponseEntity<Void>
+        + sumRating(): ResponseEntity<Long>
+        + findByNameStartingWith(prefix: String): ResponseEntity<List<WorkerDTO>>
+        + hireToOrganization(workerId, orgId): ResponseEntity<WorkerDTO>
+        + indexSalary(workerId, coefficient): ResponseEntity<WorkerDTO>
+    }
+
+    class OrganizationController <<Controller>> {
+        - organizationService: OrganizationService
+        --
+        + getAll(): ResponseEntity<List<OrganizationDTO>>
+        + getById(id: Long): ResponseEntity<OrganizationDTO>
+        + create(dto: OrganizationDTO): ResponseEntity<OrganizationDTO>
+        + update(id: Long, dto: OrganizationDTO): ResponseEntity<OrganizationDTO>
+        + delete(id: Long): ResponseEntity<Void>
+    }
+
+    class AuthController <<Controller>> {
+        - authService: AuthService
+        --
+        + register(request: RegisterRequest): ResponseEntity<UserDTO>
+        + login(request: AuthRequest): ResponseEntity<AuthResponse>
+    }
+
+    class AdminController <<Controller>> {
+        - authService: AuthService
+        --
+        + getPendingAdmins(): ResponseEntity<List<UserDTO>>
+        + approveAdmin(userId: Long): ResponseEntity<UserDTO>
+    }
+
+    class ImportController <<Controller>> {
+        - importService: ImportService
+        --
+        + importWorkers(file: MultipartFile): ResponseEntity<ImportResultDTO>
+        + getImportHistory(page: int, size: int): ResponseEntity<PageResponse<ImportHistoryDTO>>
+        + downloadImportFile(id: Long): ResponseEntity<InputStreamResource>
+    }
+
+    class CacheController <<Controller>> {
+        - cacheStatisticsAspect: CacheStatisticsAspect
+        --
+        + getStatistics(): ResponseEntity<CacheStatisticsDTO>
+        + logStatistics(): ResponseEntity<CacheStatisticsDTO>
+        + clearStatistics(): ResponseEntity<Map>
+        + getLoggingStatus(): ResponseEntity<Map>
+        + enableLogging(): ResponseEntity<Map>
+        + disableLogging(): ResponseEntity<Map>
+    }
+}
+
+package "Exception Handling" {
+    class GlobalExceptionHandler {
+        + handleEntityNotFound(ex): ResponseEntity<ErrorResponse>
+        + handleIllegalState(ex): ResponseEntity<ErrorResponse>
+        + handleValidation(ex): ResponseEntity<ErrorResponse>
+        + handleGeneral(ex): ResponseEntity<ErrorResponse>
+    }
+}
+
+package "Security Layer" <<CONTROLLER_COLOR>> {
+    
+    class SecurityConfig {
+        - jwtAuthFilter: JwtAuthenticationFilter
+        - userDetailsService: CustomUserDetailsService
+        --
+        + securityFilterChain(http: HttpSecurity): SecurityFilterChain
+        + passwordEncoder(): PasswordEncoder
+        + authenticationProvider(): AuthenticationProvider
+        + authenticationManager(): AuthenticationManager
+    }
+
+    class JwtService {
+        - secretKey: String
+        - jwtExpiration: long
+        --
+        + generateToken(userDetails: UserDetails): String
+        + extractUsername(token: String): String
+        + isTokenValid(token: String, userDetails: UserDetails): boolean
+    }
+
+    class JwtAuthenticationFilter {
+        - jwtService: JwtService
+        - userDetailsService: CustomUserDetailsService
+        --
+        # doFilterInternal(request, response, filterChain): void
+    }
+
+    class CustomUserDetails {
+        - user: User
+        --
+        + getAuthorities(): Collection<GrantedAuthority>
+        + getPassword(): String
+        + getUsername(): String
+        + isEnabled(): boolean
+        + getUserId(): Long
+    }
+
+    class CustomUserDetailsService {
+        - userRepository: UserRepository
+        --
+        + loadUserByUsername(username: String): UserDetails
+    }
+}
+
+package "Configuration" <<CONFIG_COLOR>> {
+    class JpaConfig <<Config>> {
+        --
+        + @EnableTransactionManagement
+        + @EnableJpaRepositories
+    }
+
+    class WebSocketConfig <<Config>> {
+        + registerStompEndpoints(): void
+        + configureMessageBroker(): void
+    }
+
+    class CorsConfig <<Config>> {
+        + corsFilter(): CorsFilter
+    }
+
+    class MinioConfig <<Config>> {
+        - endpoint: String
+        - accessKey: String
+        - secretKey: String
+        - bucketName: String
+        --
+        + minioClient(): MinioClient
+        <i>Creates bucket if not exists</i>
+    }
+}
+
+' ==================== RELATIONSHIPS ====================
+
+' Entity Relationships (ORM)
+Worker "1" --> "1" Coordinates : coordinates
+Worker "1" --> "0..1" Organization : organization
+Worker "1" --> "1" Person : person
+Worker "1" --> "1" Position : position
+Worker "1" --> "0..1" Status : status
+
+Organization "1" --> "0..1" Address : officialAddress
+Organization "1" --> "1" Address : postalAddress
+Organization "1" --> "1" OrganizationType : type
+
+Person "1" --> "1" Color : eyeColor
+Person "1" --> "1" Color : hairColor
+Person "1" --> "0..1" Location : location
+
+User "1" --> "1" Role : role
+ImportHistory "*" --> "1" User : user
+ImportHistory "1" --> "1" ImportStatus : status
+
+' DTO Relationships
+WorkerDTO "1" --> "1" CoordinatesDTO : coordinates
+WorkerDTO "1" --> "0..1" OrganizationDTO : organization
+WorkerDTO "1" --> "1" PersonDTO : person
+
+OrganizationDTO "1" --> "0..1" AddressDTO : officialAddress
+OrganizationDTO "1" --> "1" AddressDTO : postalAddress
+
+PersonDTO "1" --> "0..1" LocationDTO : location
+
+' Repository Relationships
+WorkerRepository ..> Worker : <<manages>>
+OrganizationRepository ..> Organization : <<manages>>
+PersonRepository ..> Person : <<manages>>
+CoordinatesRepository ..> Coordinates : <<manages>>
+LocationRepository ..> Location : <<manages>>
+AddressRepository ..> Address : <<manages>>
+UserRepository ..> User : <<manages>>
+ImportHistoryRepository ..> ImportHistory : <<manages>>
+
+' Service Dependencies
+WorkerService --> WorkerRepository : uses
+WorkerService --> OrganizationRepository : uses
+WorkerService --> MapperService : uses
+WorkerService ..> WorkerDTO : <<creates/updates>>
+
+OrganizationService --> OrganizationRepository : uses
+OrganizationService --> WorkerRepository : uses (for validation)
+OrganizationService --> MapperService : uses
+OrganizationService ..> OrganizationDTO : <<creates/updates>>
+
+MapperService ..> Worker : <<converts>>
+MapperService ..> WorkerDTO : <<converts>>
+MapperService ..> Organization : <<converts>>
+MapperService ..> OrganizationDTO : <<converts>>
+
+AuthService --> UserRepository : uses
+AuthService --> JwtService : uses
+AuthService ..> UserDTO : <<creates>>
+AuthService ..> AuthResponse : <<creates>>
+
+ImportService --> ImportHistoryRepository : uses
+ImportService --> WorkerRepository : uses
+ImportService --> WorkerValidationService : uses
+ImportService --> MapperService : uses
+ImportService --> MinioService : uses
+ImportService ..> ImportResultDTO : <<creates>>
+
+MinioService --> MinioConfig : configured by
+
+WorkerValidationService --> WorkerRepository : uses
+
+' AOP Dependencies
+CacheStatisticsAspect ..> CacheStatisticsDTO : <<creates>>
+CacheStatisticsAspect ..|> WorkerRepository : <<intercepts>>
+CacheStatisticsAspect ..|> OrganizationRepository : <<intercepts>>
+
+' Security Dependencies
+SecurityConfig --> JwtAuthenticationFilter : uses
+SecurityConfig --> CustomUserDetailsService : uses
+
+JwtAuthenticationFilter --> JwtService : uses
+JwtAuthenticationFilter --> CustomUserDetailsService : uses
+
+CustomUserDetailsService --> UserRepository : uses
+CustomUserDetailsService ..> CustomUserDetails : <<creates>>
+
+CustomUserDetails --> User : wraps
+
+' Controller Dependencies
+WorkerController --> WorkerService : uses
+WorkerController ..> WorkerDTO : <<receives/returns>>
+WorkerController ..> PageResponse : <<returns>>
+
+OrganizationController --> OrganizationService : uses
+OrganizationController ..> OrganizationDTO : <<receives/returns>>
+
+AuthController --> AuthService : uses
+AuthController ..> AuthRequest : <<receives>>
+AuthController ..> AuthResponse : <<returns>>
+AuthController ..> RegisterRequest : <<receives>>
+AuthController ..> UserDTO : <<returns>>
+
+AdminController --> AuthService : uses
+AdminController ..> UserDTO : <<returns>>
+
+ImportController --> ImportService : uses
+ImportController ..> ImportResultDTO : <<returns>>
+ImportController ..> ImportHistoryDTO : <<returns>>
+
+CacheController --> CacheStatisticsAspect : uses
+CacheController ..> CacheStatisticsDTO : <<returns>>
+
+' Exception Handling
+GlobalExceptionHandler ..> ErrorResponse : <<creates>>
+
+' Spring Framework Interfaces
+WorkerRepository --|> JpaRepository
+WorkerRepository --|> JpaSpecificationExecutor
+OrganizationRepository --|> JpaRepository
+PersonRepository --|> JpaRepository
+CoordinatesRepository --|> JpaRepository
+LocationRepository --|> JpaRepository
+AddressRepository --|> JpaRepository
+UserRepository --|> JpaRepository
+ImportHistoryRepository --|> JpaRepository
+
+interface JpaRepository<<Spring Data>>
+interface JpaSpecificationExecutor<<Spring Data>>
+interface UserDetails<<Spring Security>>
+interface UserDetailsService<<Spring Security>>
+
+CustomUserDetails --|> UserDetails
+CustomUserDetailsService --|> UserDetailsService
+
+note right of CacheStatisticsAspect
+  <b>Spring AOP</b>
+  Логирует cache hits/misses
+  для L2 JPA Cache (Ehcache)
+  
+  Включение/отключение:
+  POST /api/cache/logging/enable
+  POST /api/cache/logging/disable
+end note
+
+note right of MinioService
+  <b>Two-Phase Commit (2PC)</b>
+  
+  1. PREPARE: файл → pending/
+  2. COMMIT: pending/ → final
+  3. ROLLBACK: удаление pending
+  
+  Распределённая транзакция
+  между PostgreSQL и MinIO
+end note
+
+note right of ImportHistory
+  <b>L2 Cache</b>
+  Все Entity используют
+  Hibernate L2 Cache
+  с Ehcache провайдером
+end note
+
+@enduml
